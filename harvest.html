@@ -1,0 +1,2780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Harvest Restaurant | Since 2005</title>
+
+<style>
+
+/* =========================================================
+   HARVEST RESTAURANT
+   ALL CSS IS INSIDE THIS HTML FILE
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: #171717;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ================= HEADER ================= */
+
+.top-bar {
+    background: #111;
+    color: white;
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.top-bar span {
+    color: #f2c14e;
+}
+
+.header {
+    background: white;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #d62828;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    border: 5px solid #f2c14e;
+}
+
+.logo-text h1 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: #151515;
+}
+
+.logo-text p {
+    color: #d62828;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 11px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.header-btn:hover {
+    background: #f5f5f5;
+}
+
+.cart-button {
+    background: #d62828;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.cart-button:hover {
+    background: #b51f1f;
+}
+
+/* ================= NAVIGATION ================= */
+
+.navbar {
+    background: #d62828;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 16px 17px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.navbar a:hover {
+    background: #b51f1f;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    min-height: 590px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.88),
+            rgba(0,0,0,.62),
+            rgba(0,0,0,.15)
+        ),
+        url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1800&q=85");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding: 60px 8%;
+    color: white;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero-small {
+    color: #f2c14e;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.hero h2 {
+    font-family: Georgia, serif;
+    font-size: clamp(48px, 7vw, 82px);
+    line-height: .95;
+    margin-bottom: 20px;
+}
+
+.hero h2 span {
+    color: #f2c14e;
+}
+
+.hero p {
+    font-size: 19px;
+    line-height: 1.7;
+    max-width: 590px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    background: #d62828;
+    color: white;
+    border: none;
+    padding: 15px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.primary-btn:hover {
+    background: #b51f1f;
+}
+
+.gold-btn {
+    background: #f2c14e;
+    color: #111;
+    border: none;
+    padding: 15px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* ================= INFO STRIP ================= */
+
+.info-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: #171717;
+    color: white;
+}
+
+.info-box {
+    padding: 25px;
+    text-align: center;
+    border-right: 1px solid #444;
+}
+
+.info-box:last-child {
+    border-right: none;
+}
+
+.info-box strong {
+    display: block;
+    color: #f2c14e;
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+/* ================= SECTION ================= */
+
+.section {
+    padding: 75px 6%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-title .eyebrow {
+    color: #d62828;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.section-title h2 {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    margin: 8px 0;
+}
+
+.section-title p {
+    color: #666;
+}
+
+/* ================= SEARCH ================= */
+
+.search-area {
+    max-width: 800px;
+    margin: 0 auto 35px;
+    display: flex;
+    border: 2px solid #222;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search-area input {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-area button {
+    width: 60px;
+    background: #d62828;
+    color: white;
+    border: none;
+    font-size: 20px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.category-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 11px 19px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: #d62828;
+    color: white;
+    border-color: #d62828;
+}
+
+/* ================= MENU ================= */
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.food-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,.07);
+    transition: .25s;
+    position: relative;
+}
+
+.food-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.13);
+}
+
+.food-image {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+.food-content {
+    padding: 18px;
+}
+
+.food-category {
+    color: #d62828;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.food-name {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    margin: 7px 0;
+}
+
+.food-description {
+    color: #666;
+    line-height: 1.5;
+    min-height: 48px;
+    font-size: 14px;
+}
+
+.food-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.price {
+    color: #d62828;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.add-btn {
+    background: #171717;
+    color: white;
+    border: none;
+    padding: 10px 13px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.add-btn:hover {
+    background: #d62828;
+}
+
+.order-btn {
+    width: 100%;
+    margin-top: 9px;
+    background: #d62828;
+    color: white;
+    border: none;
+    padding: 11px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #f2c14e;
+    color: #111;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.no-results {
+    text-align: center;
+    padding: 50px;
+    color: #777;
+    grid-column: 1/-1;
+}
+
+/* ================= ABOUT ================= */
+
+.about {
+    background: #f5f1e8;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.about-content h2 {
+    font-family: Georgia, serif;
+    font-size: 43px;
+    margin-bottom: 20px;
+}
+
+.about-content h2 span {
+    color: #d62828;
+}
+
+.about-content p {
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 18px;
+}
+
+.feature-list {
+    list-style: none;
+    margin: 25px 0;
+}
+
+.feature-list li {
+    margin: 12px 0;
+    font-weight: bold;
+}
+
+.feature-list li::before {
+    content: "✓";
+    color: #d62828;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* ================= HOURS ================= */
+
+.hours-card {
+    max-width: 850px;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.hours-row:last-child {
+    border-bottom: none;
+}
+
+.hours-row.sunday {
+    background: #fff0f0;
+    color: #d62828;
+    font-weight: bold;
+}
+
+/* ================= FEEDBACK ================= */
+
+.feedback {
+    background: #171717;
+    color: white;
+}
+
+.feedback .section-title p {
+    color: #aaa;
+}
+
+.feedback-form {
+    max-width: 750px;
+    margin: auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.feedback-form input,
+.feedback-form textarea,
+.feedback-form select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    background: #222;
+    color: white;
+    border-radius: 4px;
+    outline: none;
+}
+
+.feedback-form textarea {
+    height: 130px;
+    resize: vertical;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #0b0b0b;
+    color: white;
+    padding: 60px 6% 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 50px;
+}
+
+.footer h3 {
+    font-family: Georgia, serif;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.footer h3 span {
+    color: #f2c14e;
+}
+
+.footer p {
+    color: #bbb;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin: 12px 0;
+}
+
+.footer-links a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: #f2c14e;
+}
+
+.copyright {
+    margin-top: 45px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    color: #777;
+    text-align: center;
+}
+
+/* ================= CART ================= */
+
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 2000;
+    display: none;
+}
+
+.cart-overlay.show {
+    display: block;
+}
+
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(450px, 100%);
+    height: 100vh;
+    background: white;
+    z-index: 2100;
+    transform: translateX(100%);
+    transition: .3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-panel.show {
+    transform: translateX(0);
+}
+
+.cart-header {
+    background: #d62828;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-header button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 25px;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 65px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+.cart-item img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-item-name {
+    font-weight: bold;
+}
+
+.cart-item-price {
+    color: #d62828;
+    margin-top: 4px;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 8px;
+}
+
+.quantity button {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #ccc;
+    background: white;
+}
+
+.remove-btn {
+    background: transparent;
+    border: none;
+    color: #d62828;
+    font-size: 18px;
+}
+
+.cart-footer {
+    border-top: 1px solid #ddd;
+    padding: 20px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: min(500px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    font-size: 25px;
+}
+
+.modal-box h2 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.modal-box input,
+.modal-box textarea,
+.modal-box select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    margin-bottom: 13px;
+    border-radius: 4px;
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.auth-tab.active {
+    background: #d62828;
+    color: white;
+}
+
+.modal-message {
+    margin-top: 12px;
+    color: #d62828;
+    font-weight: bold;
+}
+
+/* ================= TOAST ================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: #171717;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    z-index: 5000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: .3s;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 1100px) {
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+
+    .top-bar {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .navbar {
+        overflow-x: auto;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
+
+    .navbar a {
+        white-space: nowrap;
+    }
+
+    .hero {
+        min-height: 530px;
+        padding: 40px 7%;
+    }
+
+    .hero h2 {
+        font-size: 55px;
+    }
+
+    .info-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .info-box {
+        border-right: none;
+        border-bottom: 1px solid #444;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image {
+        height: 350px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+
+    .logo-text h1 {
+        font-size: 25px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .header-btn,
+    .cart-button {
+        padding: 10px 11px;
+        font-size: 12px;
+    }
+
+    .hero h2 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .section {
+        padding: 55px 5%;
+    }
+
+    .section-title h2 {
+        font-size: 34px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .hours-row {
+        padding: 15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<div class="top-bar">
+    <div>🌾 <span>HARVEST RESTAURANT</span> — Since 2005</div>
+    <div>📞 03557686879</div>
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <div class="logo-icon">
+            H
+        </div>
+
+        <div class="logo-text">
+            <h1>HARVEST</h1>
+            <p>RESTAURANT</p>
+        </div>
+
+    </div>
+
+    <div class="header-actions">
+
+        <button class="header-btn" onclick="openAuth()">
+            👤 Login / Register
+        </button>
+
+        <button class="cart-button" onclick="openCart()">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navbar">
+
+    <a href="#home">HOME</a>
+    <a href="#menu">MENU</a>
+    <a href="#about">ABOUT</a>
+    <a href="#hours">HOURS</a>
+    <a href="#feedback">FEEDBACK</a>
+    <a href="#contact">CONTACT</a>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            HARVEST RESTAURANT — PAKISTAN
+        </div>
+
+        <h2>
+            Fresh Food.<br>
+            <span>Great Taste.</span>
+        </h2>
+
+        <p>
+            Welcome to Harvest Restaurant. Since 2005, we have
+            been serving delicious food made with fresh ingredients,
+            quality products and a passion for great taste.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="primary-btn"
+                    onclick="document.getElementById('menu').scrollIntoView()">
+                ORDER NOW
+            </button>
+
+            <button class="gold-btn"
+                    onclick="document.getElementById('about').scrollIntoView()">
+                DISCOVER HARVEST
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INFORMATION
+===================================================== -->
+
+<section class="info-strip">
+
+    <div class="info-box">
+        <strong>📍 LOCATION</strong>
+        Pakistan
+    </div>
+
+    <div class="info-box">
+        <strong>📞 CALL US</strong>
+        03557686879
+    </div>
+
+    <div class="info-box">
+        <strong>🕐 OPENING HOURS</strong>
+        Monday – Saturday
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<section class="section" id="menu">
+
+    <div class="section-title">
+
+        <div class="eyebrow">
+            Taste the Harvest
+        </div>
+
+        <h2>Our Menu</h2>
+
+        <p>
+            Delicious food prepared fresh for you.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-area">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search food, drinks, desserts..."
+            oninput="renderMenu()"
+        >
+
+        <button onclick="renderMenu()">🔍</button>
+
+    </div>
+
+
+    <!-- CATEGORIES -->
+
+    <div class="categories">
+
+        <button class="category-btn active"
+                onclick="setCategory('All', this)">
+            All
+        </button>
+
+        <button class="category-btn"
+                onclick="setCategory('Appetizers', this)">
+            Appetizers
+        </button>
+
+        <button class="category-btn"
+                onclick="setCategory('Main Courses', this)">
+            Main Courses
+        </button>
+
+        <button class="category-btn"
+                onclick="setCategory('Sides', this)">
+            Sides
+        </button>
+
+        <button class="category-btn"
+                onclick="setCategory('Desserts', this)">
+            Desserts
+        </button>
+
+        <button class="category-btn"
+                onclick="setCategory('Beverages', this)">
+            Beverages
+        </button>
+
+    </div>
+
+
+    <!-- FOOD CARDS -->
+
+    <div class="menu-grid" id="menuGrid"></div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section class="section about" id="about">
+
+    <div class="about-grid">
+
+        <img
+            class="about-image"
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85"
+            alt="Harvest Restaurant"
+        >
+
+        <div class="about-content">
+
+            <div class="eyebrow">
+                OUR STORY
+            </div>
+
+            <h2>
+                Welcome to <span>Harvest</span>
+            </h2>
+
+            <p>
+                Harvest Restaurant has been serving guests since
+                2005. Our goal is simple: bring fresh ingredients,
+                delicious recipes and warm hospitality together
+                under one roof.
+            </p>
+
+            <p>
+                From crispy appetizers and juicy steaks to creamy
+                pasta, fresh seafood and homemade desserts,
+                there is something for everyone at Harvest.
+            </p>
+
+            <ul class="feature-list">
+
+                <li>Fresh Ingredients</li>
+                <li>Quality Food</li>
+                <li>Family Friendly Environment</li>
+                <li>Friendly Service</li>
+                <li>Freshly Prepared Meals</li>
+
+            </ul>
+
+            <button class="primary-btn"
+                    onclick="document.getElementById('menu').scrollIntoView()">
+                VIEW OUR MENU
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     OPENING HOURS
+===================================================== -->
+
+<section class="section" id="hours">
+
+    <div class="section-title">
+
+        <div class="eyebrow">
+            VISIT HARVEST
+        </div>
+
+        <h2>Opening Hours</h2>
+
+        <p>
+            We're ready to serve you.
+        </p>
+
+    </div>
+
+    <div class="hours-card">
+
+        <div class="hours-row">
+            <strong>Monday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row">
+            <strong>Tuesday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row">
+            <strong>Wednesday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row">
+            <strong>Thursday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row">
+            <strong>Friday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row">
+            <strong>Saturday</strong>
+            <span>Open All Day</span>
+        </div>
+
+        <div class="hours-row sunday">
+            <strong>Sunday</strong>
+            <span>CLOSED</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FEEDBACK
+===================================================== -->
+
+<section class="section feedback" id="feedback">
+
+    <div class="section-title">
+
+        <div class="eyebrow">
+            WE VALUE YOU
+        </div>
+
+        <h2>Give Feedback</h2>
+
+        <p>
+            Tell us about your Harvest experience.
+        </p>
+
+    </div>
+
+
+    <form class="feedback-form"
+          onsubmit="submitFeedback(event)">
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="feedbackName"
+                placeholder="Your Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="feedbackEmail"
+                placeholder="Email Address"
+                required
+            >
+
+        </div>
+
+        <select id="feedbackRating" required>
+
+            <option value="">
+                Rate your experience
+            </option>
+
+            <option>★★★★★ Excellent</option>
+            <option>★★★★ Very Good</option>
+            <option>★★★ Good</option>
+            <option>★★ Fair</option>
+            <option>★ Poor</option>
+
+        </select>
+
+        <textarea
+            id="feedbackMessage"
+            placeholder="Write your feedback..."
+            required
+        ></textarea>
+
+        <button class="gold-btn" type="submit">
+            SUBMIT FEEDBACK
+        </button>
+
+    </form>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer" id="contact">
+
+    <div class="footer-grid">
+
+        <div>
+
+            <h3>
+                <span>HARVEST</span> RESTAURANT
+            </h3>
+
+            <p>
+                Fresh food. Great taste. Since 2005.
+            </p>
+
+            <p>
+                📍 Pakistan
+            </p>
+
+            <p>
+                📞 03557686879
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+
+                <li>
+                    <a href="#menu">Menu</a>
+                </li>
+
+                <li>
+                    <a href="#about">About Us</a>
+                </li>
+
+                <li>
+                    <a href="#hours">Opening Hours</a>
+                </li>
+
+                <li>
+                    <a href="#feedback">Feedback</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h3>Contact</h3>
+
+            <p>
+                Harvest Restaurant
+            </p>
+
+            <p>
+                Pakistan
+            </p>
+
+            <p>
+                Phone: 03557686879
+            </p>
+
+            <p>
+                Monday – Saturday: Open All Day
+            </p>
+
+            <p>
+                Sunday: Closed
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 Harvest Restaurant. All Rights Reserved.
+        | Since 2005
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     CART OVERLAY
+===================================================== -->
+
+<div class="cart-overlay"
+     id="cartOverlay"
+     onclick="closeCart()">
+</div>
+
+
+<!-- =====================================================
+     CART
+===================================================== -->
+
+<div class="cart-panel" id="cartPanel">
+
+    <div class="cart-header">
+
+        <h2>Your Cart</h2>
+
+        <button onclick="closeCart()">
+            ×
+        </button>
+
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-footer">
+
+        <div class="total-row">
+
+            <span>Total</span>
+
+            <span id="cartTotal">
+                PKR 0
+            </span>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            style="width:100%;"
+            onclick="checkout()">
+
+            PROCEED TO ORDER
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN / REGISTER MODAL
+===================================================== -->
+
+<div class="modal" id="authModal">
+
+    <div class="modal-box">
+
+        <button class="modal-close"
+                onclick="closeAuth()">
+            ×
+        </button>
+
+        <h2>Welcome to Harvest</h2>
+
+        <div class="auth-tabs">
+
+            <button
+                class="auth-tab active"
+                id="loginTab"
+                onclick="showLogin()">
+                Login
+            </button>
+
+            <button
+                class="auth-tab"
+                id="registerTab"
+                onclick="showRegister()">
+                Register
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <form id="loginForm"
+              onsubmit="loginUser(event)">
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                required
+            >
+
+            <button
+                class="primary-btn"
+                style="width:100%;"
+                type="submit">
+
+                LOGIN
+
+            </button>
+
+        </form>
+
+
+        <!-- REGISTER -->
+
+        <form
+            id="registerForm"
+            style="display:none;"
+            onsubmit="registerUser(event)">
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password"
+                required
+            >
+
+            <button
+                class="primary-btn"
+                style="width:100%;"
+                type="submit">
+
+                CREATE ACCOUNT
+
+            </button>
+
+        </form>
+
+        <div
+            class="modal-message"
+            id="authMessage">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ORDER MODAL
+===================================================== -->
+
+<div class="modal" id="orderModal">
+
+    <div class="modal-box">
+
+        <button class="modal-close"
+                onclick="closeOrder()">
+            ×
+        </button>
+
+        <h2>Complete Your Order</h2>
+
+        <form onsubmit="placeOrder(event)">
+
+            <input
+                type="text"
+                id="orderName"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                type="tel"
+                id="orderPhone"
+                placeholder="Phone Number"
+                required
+            >
+
+            <input
+                type="text"
+                id="orderAddress"
+                placeholder="Delivery Address"
+                required
+            >
+
+            <select id="paymentMethod" required>
+
+                <option value="">
+                    Select Payment Method
+                </option>
+
+                <option>
+                    Cash on Delivery
+                </option>
+
+                <option>
+                    Bank Transfer
+                </option>
+
+                <option>
+                    Pay at Restaurant
+                </option>
+
+            </select>
+
+            <textarea
+                id="orderNotes"
+                placeholder="Order notes (optional)"
+            ></textarea>
+
+            <div style="margin-bottom:15px;font-weight:bold;">
+                Order Total:
+                <span
+                    id="orderTotal"
+                    style="color:#d62828;">
+                    PKR 0
+                </span>
+            </div>
+
+            <button
+                class="primary-btn"
+                style="width:100%;"
+                type="submit">
+
+                PLACE ORDER
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div class="toast" id="toast">
+    Added to cart!
+</div>
+
+
+<script>
+
+/* =========================================================
+   HARVEST RESTAURANT JAVASCRIPT
+   EVERYTHING IS INSIDE THIS HTML FILE
+========================================================= */
+
+
+/* ================= MENU DATA ================= */
+
+const menu = [
+
+    {
+        id: 1,
+        name: "Crispy Calamari",
+        category: "Appetizers",
+        desc: "Golden fried squid rings served crispy and delicious.",
+        price: 850,
+        image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+        badge: "POPULAR"
+    },
+
+    {
+        id: 2,
+        name: "Loaded Nachos",
+        category: "Appetizers",
+        desc: "Melted cheese, beans and crispy tortilla chips.",
+        price: 750,
+        image: "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 3,
+        name: "Bruschetta",
+        category: "Appetizers",
+        desc: "Garlic toast topped with fresh tomatoes and herbs.",
+        price: 650,
+        image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 4,
+        name: "Soup of the Day",
+        category: "Appetizers",
+        desc: "Chef's fresh daily soup prepared with seasonal ingredients.",
+        price: 500,
+        image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=800&q=80"
+    },
+
+
+    {
+        id: 5,
+        name: "Classic Cheeseburger",
+        category: "Main Courses",
+        desc: "Grilled beef patty with cheddar cheese and fresh toppings.",
+        price: 1100,
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+        badge: "BEST SELLER"
+    },
+
+    {
+        id: 6,
+        name: "Grilled Salmon",
+        category: "Main Courses",
+        desc: "Fresh Atlantic salmon served with lemon butter.",
+        price: 1850,
+        image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 7,
+        name: "Chicken Alfredo",
+        category: "Main Courses",
+        desc: "Creamy Alfredo pasta with grilled chicken.",
+        price: 1250,
+        image: "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 8,
+        name: "Ribeye Steak",
+        category: "Main Courses",
+        desc: "Juicy ribeye steak served with peppercorn sauce.",
+        price: 2400,
+        image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=800&q=80",
+        badge: "CHEF'S CHOICE"
+    },
+
+
+    {
+        id: 9,
+        name: "Truffle Fries",
+        category: "Sides",
+        desc: "Crispy potatoes finished with truffle oil.",
+        price: 550,
+        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 10,
+        name: "Garden Salad",
+        category: "Sides",
+        desc: "Fresh greens and vegetables with vinaigrette.",
+        price: 600,
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 12,
+        name: "Onion Rings",
+        category: "Sides",
+        desc: "Deep fried crispy battered onion slices.",
+        price: 500,
+        image: "https://images.unsplash.com/photo-1639024471283-03518883512d?auto=format&fit=crop&w=800&q=80"
+    },
+
+
+    {
+        id: 13,
+        name: "Chocolate Lava Cake",
+        category: "Desserts",
+        desc: "Warm chocolate cake with a melted chocolate center.",
+        price: 750,
+        image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476f?auto=format&fit=crop&w=800&q=80",
+        badge: "FAVORITE"
+    },
+
+    {
+        id: 14,
+        name: "New York Cheesecake",
+        category: "Desserts",
+        desc: "Rich and creamy classic cheesecake.",
+        price: 650,
+        image: "https://images.unsplash.com/photo-1578775887804-699de7086ff9?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 15,
+        name: "Tiramisu",
+        category: "Desserts",
+        desc: "Italian coffee-flavored dessert.",
+        price: 650,
+        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 16,
+        name: "Vanilla Ice Cream",
+        category: "Desserts",
+        desc: "Classic sweet and creamy vanilla ice cream.",
+        price: 400,
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80"
+    },
+
+
+    {
+        id: 17,
+        name: "Iced Lemonade",
+        category: "Beverages",
+        desc: "Freshly squeezed cold lemonade.",
+        price: 300,
+        image: "https://images.unsplash.com/photo-1523677011781-c91d1bbe2f0b?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 18,
+        name: "Espresso",
+        category: "Beverages",
+        desc: "Strong concentrated coffee.",
+        price: 350,
+        image: "https://images.unsplash.com/photo-1510707577719-ae7c9f2c6a37?auto=format&fit=crop&w=800&q=80"
+    },
+
+    {
+        id: 20,
+        name: "Green Tea",
+        category: "Beverages",
+        desc: "Warm brewed green tea.",
+        price: 250,
+        image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80"
+    }
+
+];
+
+
+/* ================= CART ================= */
+
+let cart = JSON.parse(
+    localStorage.getItem("harvestCart") || "[]"
+);
+
+
+/* ================= CATEGORY ================= */
+
+let activeCategory = "All";
+
+
+/* ================= PKR FORMAT ================= */
+
+function pkr(number) {
+
+    return "PKR " +
+        Number(number).toLocaleString("en-PK");
+
+}
+
+
+/* ================= RENDER MENU ================= */
+
+function renderMenu() {
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const query =
+        searchInput.value.toLowerCase().trim();
+
+
+    const items = menu.filter(item => {
+
+        const categoryMatch =
+            activeCategory === "All" ||
+            item.category === activeCategory;
+
+        const searchMatch =
+            item.name.toLowerCase().includes(query) ||
+            item.category.toLowerCase().includes(query) ||
+            item.desc.toLowerCase().includes(query);
+
+        return categoryMatch && searchMatch;
+
+    });
+
+
+    const grid =
+        document.getElementById("menuGrid");
+
+
+    if (items.length === 0) {
+
+        grid.innerHTML = `
+            <div class="no-results">
+                <h3>No menu items found.</h3>
+                <p>Try another search.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML = items.map(item => `
+
+        <div class="food-card">
+
+            ${
+                item.badge
+                ?
+                `<div class="badge">${item.badge}</div>`
+                :
+                ""
+            }
+
+            <img
+                class="food-image"
+                src="${item.image}"
+                alt="${item.name}"
+            >
+
+            <div class="food-content">
+
+                <div class="food-category">
+                    ${item.category}
+                </div>
+
+                <div class="food-name">
+                    ${item.name}
+                </div>
+
+                <div class="food-description">
+                    ${item.desc}
+                </div>
+
+                <div class="food-bottom">
+
+                    <div class="price">
+                        ${pkr(item.price)}
+                    </div>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart(${item.id})">
+
+                        + Add
+
+                    </button>
+
+                </div>
+
+                <button
+                    class="order-btn"
+                    onclick="orderNow(${item.id})">
+
+                    ORDER NOW
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* ================= CATEGORY ================= */
+
+function setCategory(category, button) {
+
+    activeCategory = category;
+
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+
+    button.classList.add("active");
+
+
+    renderMenu();
+
+}
+
+
+/* ================= ADD CART ================= */
+
+function addToCart(id) {
+
+    const item = menu.find(
+        product => product.id === id
+    );
+
+
+    if (!item) return;
+
+
+    const existing = cart.find(
+        product => product.id === id
+    );
+
+
+    if (existing) {
+
+        existing.quantity++;
+
+    } else {
+
+        cart.push({
+            ...item,
+            quantity: 1
+        });
+
+    }
+
+
+    saveCart();
+
+    showToast(
+        item.name + " added to cart!"
+    );
+
+}
+
+
+/* ================= SAVE CART ================= */
+
+function saveCart() {
+
+    localStorage.setItem(
+        "harvestCart",
+        JSON.stringify(cart)
+    );
+
+    updateCart();
+
+}
+
+
+/* ================= UPDATE CART ================= */
+
+function updateCart() {
+
+    const count =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.quantity,
+            0
+        );
+
+
+    document.getElementById(
+        "cartCount"
+    ).textContent = count;
+
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+            <div style="text-align:center;padding:50px 10px;">
+                <div style="font-size:50px;">🛒</div>
+                <h3>Your cart is empty</h3>
+                <p style="color:#777;margin-top:8px;">
+                    Add some delicious food!
+                </p>
+            </div>
+        `;
+
+        document.getElementById(
+            "cartTotal"
+        ).textContent = pkr(0);
+
+        return;
+    }
+
+
+    cartItems.innerHTML = cart.map(item => `
+
+        <div class="cart-item">
+
+            <img
+                src="${item.image}"
+                alt="${item.name}"
+            >
+
+            <div>
+
+                <div class="cart-item-name">
+                    ${item.name}
+                </div>
+
+                <div class="cart-item-price">
+                    ${pkr(item.price * item.quantity)}
+                </div>
+
+                <div class="quantity">
+
+                    <button
+                        onclick="changeQuantity(${item.id}, -1)">
+                        −
+                    </button>
+
+                    <strong>
+                        ${item.quantity}
+                    </strong>
+
+                    <button
+                        onclick="changeQuantity(${item.id}, 1)">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                class="remove-btn"
+                onclick="removeFromCart(${item.id})">
+
+                ×
+
+            </button>
+
+        </div>
+
+    `).join("");
+
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.price * item.quantity,
+            0
+        );
+
+
+    document.getElementById(
+        "cartTotal"
+    ).textContent = pkr(total);
+
+}
+
+
+/* ================= QUANTITY ================= */
+
+function changeQuantity(id, change) {
+
+    const item =
+        cart.find(product => product.id === id);
+
+
+    if (!item) return;
+
+
+    item.quantity += change;
+
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                product => product.id !== id
+            );
+
+    }
+
+
+    saveCart();
+
+}
+
+
+/* ================= REMOVE ================= */
+
+function removeFromCart(id) {
+
+    cart =
+        cart.filter(
+            item => item.id !== id
+        );
+
+
+    saveCart();
+
+}
+
+
+/* ================= OPEN CART ================= */
+
+function openCart() {
+
+    document
+        .getElementById("cartPanel")
+        .classList.add("show");
+
+
+    document
+        .getElementById("cartOverlay")
+        .classList.add("show");
+
+
+    updateCart();
+
+}
+
+
+/* ================= CLOSE CART ================= */
+
+function closeCart() {
+
+    document
+        .getElementById("cartPanel")
+        .classList.remove("show");
+
+
+    document
+        .getElementById("cartOverlay")
+        .classList.remove("show");
+
+}
+
+
+/* ================= ORDER NOW ================= */
+
+function orderNow(id) {
+
+    addToCart(id);
+
+    openOrder();
+
+}
+
+
+/* ================= CHECKOUT ================= */
+
+function checkout() {
+
+    if (cart.length === 0) {
+
+        showToast(
+            "Your cart is empty."
+        );
+
+        return;
+    }
+
+
+    closeCart();
+
+    openOrder();
+
+}
+
+
+/* ================= ORDER MODAL ================= */
+
+function openOrder() {
+
+    if (cart.length === 0) {
+
+        showToast(
+            "Please add an item first."
+        );
+
+        return;
+    }
+
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.price * item.quantity,
+            0
+        );
+
+
+    document.getElementById(
+        "orderTotal"
+    ).textContent = pkr(total);
+
+
+    document
+        .getElementById("orderModal")
+        .classList.add("show");
+
+}
+
+
+function closeOrder() {
+
+    document
+        .getElementById("orderModal")
+        .classList.remove("show");
+
+}
+
+
+/* ================= PLACE ORDER ================= */
+
+function placeOrder(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById(
+            "orderName"
+        ).value;
+
+
+    const phone =
+        document.getElementById(
+            "orderPhone"
+        ).value;
+
+
+    const address =
+        document.getElementById(
+            "orderAddress"
+        ).value;
+
+
+    const payment =
+        document.getElementById(
+            "paymentMethod"
+        ).value;
+
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.price * item.quantity,
+            0
+        );
+
+
+    alert(
+        "ORDER RECEIVED!\n\n" +
+        "Customer: " + name + "\n" +
+        "Phone: " + phone + "\n" +
+        "Address: " + address + "\n" +
+        "Payment: " + payment + "\n" +
+        "Total: " + pkr(total) +
+        "\n\nThank you for ordering from Harvest Restaurant!"
+    );
+
+
+    cart = [];
+
+    saveCart();
+
+    closeOrder();
+
+
+    document.querySelector(
+        "#orderModal form"
+    ).reset();
+
+
+    showToast(
+        "Order placed successfully!"
+    );
+
+}
+
+
+/* ================= AUTH ================= */
+
+function openAuth() {
+
+    document
+        .getElementById("authModal")
+        .classList.add("show");
+
+}
+
+
+function closeAuth() {
+
+    document
+        .getElementById("authModal")
+        .classList.remove("show");
+
+}
+
+
+function showLogin() {
+
+    document.getElementById(
+        "loginForm"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "registerForm"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginTab"
+    ).classList.add("active");
+
+
+    document.getElementById(
+        "registerTab"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "authMessage"
+    ).textContent = "";
+
+}
+
+
+function showRegister() {
+
+    document.getElementById(
+        "loginForm"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "registerForm"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "loginTab"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "registerTab"
+    ).classList.add("active");
+
+
+    document.getElementById(
+        "authMessage"
+    ).textContent = "";
+
+}
+
+
+/* ================= REGISTER ================= */
+
+function registerUser(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById(
+            "registerName"
+        ).value;
+
+
+    const email =
+        document.getElementById(
+            "registerEmail"
+        ).value;
+
+
+    const password =
+        document.getElementById(
+            "registerPassword"
+        ).value;
+
+
+    const users =
+        JSON.parse(
+            localStorage.getItem(
+                "harvestUsers"
+            ) || "[]"
+        );
+
+
+    const existing =
+        users.find(
+            user => user.email === email
+        );
+
+
+    if (existing) {
+
+        document.getElementById(
+            "authMessage"
+        ).textContent =
+            "An account with this email already exists.";
+
+        return;
+    }
+
+
+    users.push({
+        name,
+        email,
+        password
+    });
+
+
+    localStorage.setItem(
+        "harvestUsers",
+        JSON.stringify(users)
+    );
+
+
+    document.getElementById(
+        "authMessage"
+    ).style.color = "green";
+
+
+    document.getElementById(
+        "authMessage"
+    ).textContent =
+        "Registration successful! You can now login.";
+
+}
+
+
+/* ================= LOGIN ================= */
+
+function loginUser(event) {
+
+    event.preventDefault();
+
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value;
+
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    const users =
+        JSON.parse(
+            localStorage.getItem(
+                "harvestUsers"
+            ) || "[]"
+        );
+
+
+    const user =
+        users.find(
+            account =>
+                account.email === email &&
+                account.password === password
+        );
+
+
+    if (!user) {
+
+        document.getElementById(
+            "authMessage"
+        ).style.color = "#d62828";
+
+
+        document.getElementById(
+            "authMessage"
+        ).textContent =
+            "Invalid email or password.";
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "harvestLoggedIn",
+        JSON.stringify(user)
+    );
+
+
+    document.getElementById(
+        "authMessage"
+    ).style.color = "green";
+
+
+    document.getElementById(
+        "authMessage"
+    ).textContent =
+        "Welcome back, " + user.name + "!";
+
+
+    setTimeout(
+        closeAuth,
+        1200
+    );
+
+}
+
+
+/* ================= FEEDBACK ================= */
+
+function submitFeedback(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById(
+            "feedbackName"
+        ).value;
+
+
+    const rating =
+        document.getElementById(
+            "feedbackRating"
+        ).value;
+
+
+    localStorage.setItem(
+        "lastHarvestFeedback",
+        JSON.stringify({
+            name,
+            rating,
+            message:
+                document.getElementById(
+                    "feedbackMessage"
+                ).value
+        })
+    );
+
+
+    alert(
+        "Thank you, " +
+        name +
+        "!\n\nYour feedback has been received."
+    );
+
+
+    event.target.reset();
+
+}
+
+
+/* ================= TOAST ================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent = message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(
+        () => {
+            toast.classList.remove("show");
+        },
+        2200
+    );
+
+}
+
+
+/* ================= CLOSE MODALS ON BACKDROP ================= */
+
+document
+    .getElementById("authModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === this) {
+                closeAuth();
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("orderModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === this) {
+                closeOrder();
+            }
+
+        }
+    );
+
+
+/* ================= INITIAL LOAD ================= */
+
+renderMenu();
+
+updateCart();
+
+</script>
+
+</body>
+</html>
