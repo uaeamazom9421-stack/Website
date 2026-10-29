@@ -1,0 +1,646 @@
+<title>Solar Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500..800&family=Manrope:wght@400..700&display=swap">
+<style>
+/* Layout: a fixed canvas solar system sits behind everything. Glass cards scroll over it.
+   Controls float bottom right. One committed dark look, so all colors are set explicitly here. */
+:root {
+  --bg: #050a18;
+  --glass: rgba(10, 19, 40, 0.58);
+  --glass-hi: rgba(16, 30, 60, 0.7);
+  --line: rgba(130, 185, 255, 0.16);
+  --fg: #e9effc;
+  --mute: #9db0d3;
+  --cyan: #22d3ee;
+  --sun: #ffb648;
+  --green: #5eead4;
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.6; overflow-x: hidden; padding-bottom: 110px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 60; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; text-wrap: balance; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 8px; }
+
+#space { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+.progress { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, var(--cyan), var(--sun)); z-index: 55; }
+
+.wrap { position: relative; z-index: 2; max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(5, 10, 24, 0.72); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 64px; }
+.brand { font-family: var(--display); font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; font-size: 1.05rem; white-space: nowrap; }
+.links { display: flex; gap: 22px; font-size: 0.92rem; font-weight: 600; color: var(--mute); overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.links::-webkit-scrollbar { display: none; }
+.links a { position: relative; padding: 6px 0; white-space: nowrap; transition: color .2s; }
+.links a:hover, .links a.on { color: var(--fg); }
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--cyan); transform: scaleX(0); transition: transform .3s; }
+.links a.on::after { transform: scaleX(1); }
+
+/* shared */
+.sec { padding-block: 64px; scroll-margin-top: 70px; }
+.glass { background: var(--glass); border: 1px solid var(--line); border-radius: 22px; padding: 30px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.eyebrow { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); display: block; margin-bottom: 8px; }
+.sec h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); margin-bottom: 20px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 999px; border: 1px solid var(--line); font-weight: 700; font-size: 0.95rem; cursor: pointer; color: var(--fg); background: transparent; transition: transform .2s, box-shadow .2s, border-color .2s; }
+.btn:hover { transform: translateY(-2px); border-color: var(--cyan); }
+.btn.fill { background: var(--cyan); color: #04202a; border-color: var(--cyan); }
+.btn.fill:hover { box-shadow: 0 10px 30px -8px rgba(34, 211, 238, 0.6); }
+
+/* hero */
+.hero { padding-block: 72px 40px; }
+.hero .glass { max-width: 640px; padding: 40px; }
+.hero h1 { font-size: clamp(2.3rem, 6vw, 4rem); font-weight: 800; line-height: 1.05; margin-bottom: 16px; }
+.hero h1 em { font-style: normal; color: var(--cyan); }
+.hero .typed { font-size: 1.25rem; font-weight: 600; color: var(--sun); min-height: 1.9em; margin-bottom: 8px; }
+.hero .typed::after { content: ""; display: inline-block; width: 2px; height: 1.1em; background: var(--sun); margin-left: 3px; vertical-align: -0.15em; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero p.intro { color: var(--mute); max-width: 52ch; margin-bottom: 26px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* about */
+.about { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; }
+.card-id { text-align: center; display: grid; gap: 6px; align-content: start; justify-items: center; }
+.avatar { position: relative; width: 148px; height: 148px; border-radius: 50%; border: 3px solid var(--cyan); overflow: hidden; background: radial-gradient(circle at 50% 30%, #1b3358, #0a1530); box-shadow: 0 0 40px -6px rgba(34, 211, 238, 0.5); margin-bottom: 10px; padding: 0; }
+.avatar svg, .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.avatar img { display: none; }
+.avatar.has img { display: block; }
+.avatar.has svg { display: none; }
+.avatar .swap { position: absolute; inset: auto 0 0 0; padding: 6px; font-size: 0.7rem; font-weight: 700; background: rgba(4, 12, 28, 0.8); color: var(--cyan); display: none; }
+.editing .avatar { cursor: pointer; }
+.editing .avatar .swap { display: block; }
+.card-id h3 { font-size: 1.2rem; }
+.card-id .sub { color: var(--cyan); font-size: 0.85rem; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 0.92rem; }
+.facts b { color: var(--mute); font-weight: 600; margin-right: 6px; }
+.about p.lead { color: var(--fg); max-width: 62ch; }
+
+/* education timeline */
+.tl { position: relative; display: grid; gap: 16px; padding-left: 30px; }
+.tl::before { content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.tl::after { content: ""; position: absolute; left: 8px; top: 8px; width: 2px; height: 0; background: linear-gradient(var(--cyan), var(--sun)); transition: height 1.8s cubic-bezier(.4, 0, .2, 1); }
+.tl.in::after { height: calc(100% - 16px); }
+.tl-item { position: relative; display: grid; grid-template-columns: 90px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 18px 22px; background: var(--glass-hi); border: 1px solid var(--line); border-radius: 16px; }
+.tl-item::before { content: ""; position: absolute; left: -29px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--bg); border: 2px solid var(--cyan); }
+.tl-item .yr { font-family: var(--display); font-weight: 700; color: var(--sun); }
+.tl-item h3 { font-size: 1.05rem; }
+.tl-item .where { color: var(--mute); font-size: 0.9rem; }
+.pill { font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--cyan); color: var(--cyan); white-space: nowrap; }
+
+/* skills */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.meter { display: grid; gap: 6px; margin-bottom: 16px; }
+.meter:last-child { margin-bottom: 0; }
+.meter .top { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; gap: 12px; }
+.meter .top span:last-child { color: var(--mute); font-variant-numeric: tabular-nums; }
+.track { height: 8px; border-radius: 99px; background: rgba(130, 185, 255, 0.12); overflow: hidden; }
+.mfill { height: 100%; width: var(--v); border-radius: 99px; background: linear-gradient(90deg, var(--cyan), var(--green)); transform-origin: 0 50%; }
+.go .mfill { animation: grow 1.4s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes grow { from { transform: scaleX(0); } }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chips span { font-size: 0.85rem; font-weight: 600; color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.5); border-radius: 999px; padding: 4px 14px; }
+
+/* projects */
+.projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; perspective: 900px; }
+.proj { position: relative; display: grid; gap: 10px; align-content: start; padding: 24px; border-radius: 20px; background: var(--glass-hi); border: 1px solid var(--line); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .15s, border-color .2s; overflow: hidden; }
+.proj::before { content: ""; position: absolute; inset: 0; background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), rgba(34, 211, 238, 0.18), transparent 70%); pointer-events: none; opacity: 0; transition: opacity .2s; }
+.proj:hover { border-color: rgba(34, 211, 238, 0.6); }
+.proj:hover::before { opacity: 1; }
+.proj .ph { height: 110px; border-radius: 12px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(255, 182, 72, 0.22)); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 1.8rem; color: rgba(255, 255, 255, 0.75); }
+.proj h3 { font-size: 1.1rem; }
+.proj p { color: var(--mute); font-size: 0.92rem; }
+.proj .chips { margin-top: 4px; }
+.proj .chips span { font-size: 0.75rem; padding: 2px 10px; }
+
+/* courses */
+.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.list li { color: var(--mute); }
+.list li b { color: var(--fg); }
+
+/* goals */
+.goals { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 24px; align-items: center; }
+.goal { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; cursor: pointer; color: var(--fg); }
+.goal input { appearance: none; flex: none; width: 22px; height: 22px; margin-top: 2px; border-radius: 7px; border: 2px solid var(--cyan); background: transparent; display: grid; place-items: center; cursor: pointer; }
+.goal input::after { content: ""; width: 10px; height: 6px; border-left: 2px solid #04202a; border-bottom: 2px solid #04202a; transform: rotate(-45deg) scale(0); margin-top: -2px; transition: transform .2s; }
+.goal input:checked { background: var(--cyan); }
+.goal input:checked::after { transform: rotate(-45deg) scale(1); }
+.goal input:checked + span { color: var(--mute); text-decoration: line-through; }
+.ring { position: relative; width: 170px; height: 170px; justify-self: center; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 10; }
+.ring .bg { stroke: rgba(130, 185, 255, 0.14); }
+.ring .fg { stroke: url(#rg); stroke-linecap: round; transition: stroke-dashoffset .8s cubic-bezier(.2, .8, .2, 1); }
+.ring .num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1.9rem; }
+.ring .num small { display: block; font-family: var(--body); font-weight: 600; font-size: 0.75rem; color: var(--mute); }
+
+/* contact */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.rows { display: grid; gap: 16px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; padding-bottom: 0; }
+.row small { display: block; color: var(--cyan); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.row .val { overflow-wrap: anywhere; font-weight: 600; }
+.copy { border: 1px solid var(--line); background: transparent; color: var(--mute); border-radius: 999px; padding: 4px 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+.copy:hover { color: var(--fg); border-color: var(--cyan); }
+form { display: grid; gap: 12px; }
+label { display: grid; gap: 6px; font-size: 0.85rem; color: var(--mute); font-weight: 600; min-width: 0; }
+input[type="text"], input[type="email"], textarea { width: 100%; font: 500 1rem var(--body); color: var(--fg); background: rgba(4, 10, 24, 0.7); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; }
+input:focus, textarea:focus { outline: 2px solid var(--cyan); outline-offset: 1px; border-color: transparent; }
+textarea { min-height: 110px; resize: vertical; }
+.status { min-height: 1.4em; font-size: 0.9rem; color: var(--sun); }
+.status.bad { color: #ff8a7a; }
+
+footer { position: relative; z-index: 2; padding-block: 36px 24px; text-align: center; color: var(--mute); font-size: 0.88rem; }
+
+/* controls */
+.controls { position: fixed; z-index: 58; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; pointer-events: none; }
+.controls > * { pointer-events: auto; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 18px; background: rgba(6, 14, 32, 0.85); border: 1px solid var(--line); backdrop-filter: blur(12px); }
+.bar .lbl { font-size: 0.78rem; font-weight: 700; color: var(--cyan); margin-right: 2px; }
+.cbtn { border: 1px solid rgba(34, 211, 238, 0.55); background: rgba(34, 211, 238, 0.08); color: var(--fg); font-weight: 700; font-size: 0.8rem; border-radius: 999px; padding: 6px 14px; cursor: pointer; transition: background .2s; }
+.cbtn:hover, .cbtn[aria-pressed="true"] { background: var(--cyan); color: #04202a; }
+.speed { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--mute); font-weight: 700; }
+.speed input { width: 84px; accent-color: var(--cyan); }
+.edit-note { display: none; margin-bottom: 18px; padding: 12px 18px; border-radius: 14px; border: 1px dashed var(--sun); color: var(--sun); font-size: 0.9rem; background: rgba(255, 182, 72, 0.07); }
+.editing .edit-note { display: block; }
+.editing .ed { outline: 1px dashed rgba(255, 182, 72, 0.7); outline-offset: 3px; border-radius: 4px; cursor: text; }
+.bubble { position: fixed; z-index: 57; max-width: 240px; padding: 12px 14px; border-radius: 14px; background: rgba(6, 14, 32, 0.94); border: 1px solid var(--cyan); font-size: 0.85rem; line-height: 1.45; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.bubble.show { opacity: 1; transform: none; }
+.bubble b { display: block; font-family: var(--display); color: var(--cyan); margin-bottom: 2px; }
+.tip { position: fixed; z-index: 57; padding: 3px 10px; border-radius: 99px; font-size: 0.78rem; font-weight: 700; background: rgba(6, 14, 32, 0.9); border: 1px solid var(--line); pointer-events: none; opacity: 0; transition: opacity .15s; }
+.tip.show { opacity: 1; }
+
+@media (max-width: 860px) {
+  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .two, .contact { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .nav .wrap { flex-direction: column; align-items: flex-start; gap: 4px; padding-block: 10px 6px; }
+  .links { width: 100%; gap: 18px; }
+  .glass, .hero .glass { padding: 22px; }
+  .projects { grid-template-columns: minmax(0, 1fr); }
+  .tl-item { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .tl-item .pill { justify-self: start; margin-top: 6px; }
+  .goals { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .controls { justify-content: stretch; }
+  .bar { width: 100%; justify-content: center; }
+  body { padding-bottom: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .tl::after { height: calc(100% - 16px); }
+}
+</style>
+
+<canvas id="space" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand ed" data-edit="name" href="#top">Your Name</a>
+    <nav class="links" id="links" aria-label="Sections">
+      <a href="#about">About</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#courses">Courses</a><a href="#goals">Goals</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div class="edit-note">Edit mode is on. Click any dashed text to change it, and click the photo circle to upload your picture. Changes are saved in this browser only.</div>
+      <div class="glass">
+        <span class="eyebrow ed">Your Role or Degree</span>
+        <h1>Hello, I'm <em class="ed" data-edit="name">Your Name</em></h1>
+        <p class="typed" id="typed" aria-live="off"></p>
+        <p class="intro ed">Write two lines about yourself here: what you study or do, what you enjoy building, and what you want to learn next.</p>
+        <div class="cta"><a class="btn fill" href="#about">Explore Profile</a><a class="btn" href="#contact">Contact</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="wrap about">
+      <div class="glass card-id">
+        <button class="avatar" id="avatar" type="button" aria-label="Profile photo">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="38" r="17" fill="#6f93c9"/><path d="M14 100c2-26 17-38 36-38s34 12 36 38z" fill="#6f93c9"/></svg>
+          <img id="photo" alt="Profile photo">
+          <span class="swap">Change photo</span>
+        </button>
+        <h3 class="ed" data-edit="name">Your Name</h3>
+        <span class="sub ed">Your Role, Your University</span>
+      </div>
+      <div class="glass">
+        <span class="eyebrow">Overview</span>
+        <h2>About Me</h2>
+        <p class="lead ed">Introduce yourself in a short paragraph. Mention your field, the skills you are building, and the kind of work you want to do. Keep it honest and specific so people remember you.</p>
+        <div class="facts">
+          <div><b>Field</b><span class="ed">Your field of study</span></div>
+          <div><b>Location</b><span class="ed">Your City</span></div>
+          <div><b>Institution</b><span class="ed">Your University</span></div>
+          <div><b>Languages</b><span class="ed">Language one, Language two</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="education">
+    <div class="wrap">
+      <div class="glass">
+        <span class="eyebrow">Academic Journey</span>
+        <h2>Education</h2>
+        <div class="tl" id="tl">
+          <div class="tl-item"><span class="yr ed">2026</span><div><h3 class="ed">Your Degree Program</h3><span class="where ed">Your University</span></div><span class="pill ed">In progress</span></div>
+          <div class="tl-item"><span class="yr ed">2024</span><div><h3 class="ed">Intermediate or A Levels</h3><span class="where ed">Your College</span></div><span class="pill ed">Grade</span></div>
+          <div class="tl-item"><span class="yr ed">2022</span><div><h3 class="ed">Matriculation or O Levels</h3><span class="where ed">Your School</span></div><span class="pill ed">Grade</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="skills">
+    <div class="wrap two" id="skillwrap">
+      <div class="glass">
+        <span class="eyebrow">Focus Areas</span>
+        <h2>Skills</h2>
+        <div class="meter"><div class="top"><span class="ed">Web Development</span><span>70%</span></div><div class="track"><div class="mfill" style="--v:70%"></div></div></div>
+        <div class="meter"><div class="top"><span class="ed">Problem Solving</span><span>80%</span></div><div class="track"><div class="mfill" style="--v:80%"></div></div></div>
+        <div class="meter"><div class="top"><span class="ed">Communication</span><span>75%</span></div><div class="track"><div class="mfill" style="--v:75%"></div></div></div>
+        <div class="meter"><div class="top"><span class="ed">Databases</span><span>60%</span></div><div class="track"><div class="mfill" style="--v:60%"></div></div></div>
+      </div>
+      <div class="glass">
+        <span class="eyebrow">Beyond The Code</span>
+        <h2>Interests</h2>
+        <p style="color:var(--mute)" class="ed">List what you like to explore outside of class: tools, hobbies, topics you read about, or things you want to try.</p>
+        <div class="chips"><span class="ed">Computer Science</span><span class="ed">Web Development</span><span class="ed">E-Commerce</span><span class="ed">Design</span><span class="ed">Open Source</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="projects">
+    <div class="wrap">
+      <span class="eyebrow">Selected Work</span>
+      <h2>Projects</h2>
+      <div class="projects">
+        <article class="proj"><div class="ph">01</div><h3 class="ed">Project One</h3><p class="ed">Say what you built, who it helps and which problem it solved.</p><div class="chips"><span class="ed">HTML</span><span class="ed">CSS</span><span class="ed">JavaScript</span></div></article>
+        <article class="proj"><div class="ph">02</div><h3 class="ed">Project Two</h3><p class="ed">Describe the tools you used and what you learned from it.</p><div class="chips"><span class="ed">Python</span><span class="ed">SQL</span></div></article>
+        <article class="proj"><div class="ph">03</div><h3 class="ed">Project Three</h3><p class="ed">Add a result, such as users reached, time saved or a grade earned.</p><div class="chips"><span class="ed">C++</span><span class="ed">Teamwork</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="courses">
+    <div class="wrap two">
+      <div class="glass">
+        <span class="eyebrow">Learning</span>
+        <h2>Courses &amp; Diplomas</h2>
+        <ul class="list">
+          <li><b class="ed">Course name one:</b> <span class="ed">a short line on what it covered.</span></li>
+          <li><b class="ed">Course name two:</b> <span class="ed">a short line on what it covered.</span></li>
+        </ul>
+      </div>
+      <div class="glass">
+        <span class="eyebrow">Achievements</span>
+        <h2>Certificates</h2>
+        <ul class="list">
+          <li class="ed">Certificate or award name</li>
+          <li class="ed">Training or workshop name</li>
+          <li class="ed">Another achievement</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="goals">
+    <div class="wrap">
+      <div class="glass goals">
+        <div>
+          <span class="eyebrow">Vision</span>
+          <h2>Goals &amp; Objectives</h2>
+          <label class="goal"><input type="checkbox" checked><span class="ed">Build strong core knowledge in your field.</span></label>
+          <label class="goal"><input type="checkbox" checked><span class="ed">Master the modern tools and frameworks you use.</span></label>
+          <label class="goal"><input type="checkbox"><span class="ed">Ship practical projects that show your skills.</span></label>
+          <label class="goal"><input type="checkbox"><span class="ed">Land your first role or internship.</span></label>
+        </div>
+        <div class="ring" aria-label="Goal progress">
+          <svg viewBox="0 0 170 170"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#ffb648"/></linearGradient></defs><circle class="bg" cx="85" cy="85" r="74"/><circle class="fg" id="ringfg" cx="85" cy="85" r="74" stroke-dasharray="465" stroke-dashoffset="465"/></svg>
+          <div class="num"><span id="ringnum">0%</span><small id="ringsub">0 of 0 done</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="wrap contact">
+      <div class="glass">
+        <span class="eyebrow">Get In Touch</span>
+        <h2>Contact Information</h2>
+        <div class="rows">
+          <div class="row"><div><small>Phone</small><span class="val ed" id="v-phone">+00 000 0000000</span></div><button class="copy" type="button" data-copy="v-phone">Copy</button></div>
+          <div class="row"><div><small>Email</small><span class="val ed" id="v-mail">you@example.com</span></div><button class="copy" type="button" data-copy="v-mail">Copy</button></div>
+          <div class="row"><div><small>Address</small><span class="val ed" id="v-addr">Your City, Your Country</span></div><button class="copy" type="button" data-copy="v-addr">Copy</button></div>
+        </div>
+      </div>
+      <form class="glass" id="form" novalidate>
+        <span class="eyebrow">Say Hello</span>
+        <label for="c-name">Your name<input id="c-name" type="text" autocomplete="name"></label>
+        <label for="c-mail">Email<input id="c-mail" type="email" autocomplete="email"></label>
+        <label for="c-msg">Message<textarea id="c-msg"></textarea></label>
+        <button class="btn fill" type="submit" style="justify-self:start">Send message</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">2026 <span class="ed" data-edit="name">Your Name</span>. Move your pointer over the planets and click one.</div></footer>
+
+<div class="controls">
+  <div class="bar" role="group" aria-label="Solar controls">
+    <span class="lbl">Solar Controls:</span>
+    <button class="cbtn" id="alignBtn" type="button" aria-pressed="false">Align Planets</button>
+    <button class="cbtn" id="pauseBtn" type="button" aria-pressed="false">Pause Orbit</button>
+    <label class="speed" for="speed">Speed<input id="speed" type="range" min="0.25" max="4" step="0.25" value="1"></label>
+  </div>
+  <div class="bar"><button class="cbtn" id="editBtn" type="button" aria-pressed="false">Edit page</button><button class="cbtn" id="resetBtn" type="button" hidden>Reset</button></div>
+</div>
+<input id="photoIn" type="file" accept="image/*" hidden>
+<div class="bubble" id="bubble" role="status"></div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+
+  /* ================= Solar system canvas ================= */
+  var cv = $('#space'), ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, S = 1, cx = 0, cy = 0, mxn = 0.5, myn = 0.5;
+  var PLANETS = [
+    { n: 'Mercury', r: 4, a: 0.15, T: 9, c1: '#d8d2c6', c2: '#6e675c', f: 'Smallest planet. One year lasts only 88 Earth days.' },
+    { n: 'Venus', r: 6.5, a: 0.23, T: 15, c1: '#f4dca4', c2: '#a8763a', f: 'Hottest planet at about 465 C, even hotter than Mercury.' },
+    { n: 'Earth', r: 7, a: 0.32, T: 22, c1: '#7db2ff', c2: '#1b4fa8', moon: true, f: 'Home. About 71 percent of the surface is covered by water.' },
+    { n: 'Mars', r: 5, a: 0.41, T: 33, c1: '#f08a62', c2: '#8e2f16', f: 'Home to Olympus Mons, a volcano about 22 km high.' },
+    { n: 'Jupiter', r: 14, a: 0.56, T: 55, c1: '#ecc79c', c2: '#8f5f35', bands: true, f: 'Could hold over 1,300 Earths. Its Great Red Spot is a giant storm.' },
+    { n: 'Saturn', r: 11, a: 0.7, T: 80, c1: '#f0dfae', c2: '#8e7436', ring: true, f: 'Its rings are mostly water ice and stretch over 280,000 km wide.' },
+    { n: 'Uranus', r: 8, a: 0.84, T: 120, c1: '#b4f1f4', c2: '#3a8f9a', f: 'Spins on its side, tilted about 98 degrees.' },
+    { n: 'Neptune', r: 8, a: 0.96, T: 160, c1: '#7f9bff', c2: '#1c2f9e', f: 'Winds here pass 2,000 km/h, the fastest in the solar system.' }
+  ];
+  PLANETS.forEach(function (p, i) { p.ang = i * 0.85 + 0.3; p.sx = 0; p.sy = 0; p.sr = 0; });
+  var stars = [], belt = [], shooters = [];
+  var aligned = false, paused = reduce, speedCur = reduce ? 0 : 1, speedUser = 1, warp = 0, lastScroll = window.scrollY, hover = null, t = 0, last = 0;
+
+  function seedStars() {
+    stars = [];
+    var layers = [[110, 0.7, 6], [70, 1.1, 14], [28, 1.7, 26]];
+    layers.forEach(function (L, li) { for (var i = 0; i < L[0]; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, r: L[1] * (0.6 + Math.random() * 0.7), d: L[2], ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.6, l: li }); });
+    belt = [];
+    for (var j = 0; j < 190; j++) belt.push({ a: Math.random() * 6.2832, j: (Math.random() - 0.5) * 0.04, s: 0.5 + Math.random() * 0.9 });
+  }
+  function size() {
+    var r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    S = Math.max(0.6, Math.min(1.3, Math.min(W, H) / 760)); cx = W / 2; cy = H / 2; seedStars();
+  }
+  function norm(d) { return ((d + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI; }
+
+  function drawPlanet(p) {
+    var k = 1 + 0.28 * Math.sin(p.ang), r = p.r * S * k, x = p.sx, y = p.sy;
+    var dx = cx - x, dy = cy - y, dl = Math.hypot(dx, dy) || 1, ux = dx / dl, uy = dy / dl;
+    ctx.save();
+    if (p.ring) { ctx.strokeStyle = 'rgba(240,223,174,0.55)'; ctx.lineWidth = r * 0.24; ctx.beginPath(); ctx.ellipse(x, y, r * 1.95, r * 0.55, -0.35, 0, 6.2832); ctx.stroke(); }
+    ctx.shadowColor = p.c1; ctx.shadowBlur = r * 1.1;
+    var g = ctx.createRadialGradient(x + ux * r * 0.45, y + uy * r * 0.45, r * 0.1, x, y, r * 1.05);
+    g.addColorStop(0, p.c1); g.addColorStop(1, p.c2);
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fillStyle = g; ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.save(); ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.clip();
+    if (p.bands) { ctx.fillStyle = 'rgba(120,70,30,0.28)'; for (var b = -2; b <= 2; b++) ctx.fillRect(x - r, y + b * r * 0.38 - r * 0.07, r * 2, r * 0.16); }
+    var sh = ctx.createLinearGradient(x + ux * r, y + uy * r, x - ux * r, y - uy * r);
+    sh.addColorStop(0, 'rgba(2,6,16,0)'); sh.addColorStop(0.45, 'rgba(2,6,16,0)'); sh.addColorStop(1, 'rgba(2,6,16,0.7)');
+    ctx.fillStyle = sh; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    ctx.restore();
+    if (p.ring) { ctx.strokeStyle = 'rgba(240,223,174,0.7)'; ctx.lineWidth = r * 0.24; ctx.beginPath(); ctx.ellipse(x, y, r * 1.95, r * 0.55, -0.35, 0.1, Math.PI - 0.1); ctx.stroke(); }
+    if (p.moon) { var mx = x + Math.cos(t * 2.2) * r * 2.1, my = y + Math.sin(t * 2.2) * r * 0.9; ctx.beginPath(); ctx.arc(mx, my, r * 0.27, 0, 6.2832); ctx.fillStyle = '#cfd6e4'; ctx.fill(); }
+    if (hover === p) { ctx.strokeStyle = 'rgba(34,211,238,0.9)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, r + 7, 0, 6.2832); ctx.stroke(); }
+    ctx.restore();
+  }
+  function drawSun() {
+    var pulse = 1 + 0.035 * Math.sin(t * 1.7), R = 34 * S;
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    var g1 = ctx.createRadialGradient(cx, cy, R * 0.4, cx, cy, R * 6.2 * pulse);
+    g1.addColorStop(0, 'rgba(255,170,60,0.34)'); g1.addColorStop(0.35, 'rgba(255,140,40,0.12)'); g1.addColorStop(1, 'rgba(255,120,30,0)');
+    ctx.fillStyle = g1; ctx.fillRect(cx - R * 7, cy - R * 7, R * 14, R * 14);
+    for (var i = 0; i < 7; i++) {
+      var a = t * 0.12 + i * 0.9, len = R * (2.1 + 0.5 * Math.sin(t * 0.9 + i * 2));
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(a);
+      var rg = ctx.createLinearGradient(0, 0, len, 0); rg.addColorStop(0, 'rgba(255,190,90,0.22)'); rg.addColorStop(1, 'rgba(255,190,90,0)');
+      ctx.fillStyle = rg; ctx.beginPath(); ctx.moveTo(0, -R * 0.35); ctx.lineTo(len, 0); ctx.lineTo(0, R * 0.35); ctx.fill(); ctx.restore();
+    }
+    ctx.restore();
+    var g2 = ctx.createRadialGradient(cx - R * 0.2, cy - R * 0.2, R * 0.1, cx, cy, R * pulse);
+    g2.addColorStop(0, '#fff7d6'); g2.addColorStop(0.55, '#ffc24d'); g2.addColorStop(1, 'rgba(255,140,30,0.85)');
+    ctx.beginPath(); ctx.arc(cx, cy, R * pulse, 0, 6.2832); ctx.fillStyle = g2; ctx.fill();
+  }
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    var bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.75);
+    bg.addColorStop(0, '#0c1634'); bg.addColorStop(1, '#040813'); ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    var i, p, s;
+    for (i = 0; i < stars.length; i++) {
+      s = stars[i]; var tw = 0.55 + 0.45 * Math.sin(t * s.sp + s.ph);
+      var px = ((s.x + (mxn - 0.5) * s.d * -1) % W + W) % W, py = ((s.y + (myn - 0.5) * s.d * -1) % H + H) % H;
+      ctx.globalAlpha = (0.35 + 0.15 * s.l) * tw + 0.15; ctx.fillStyle = s.l === 2 ? '#bfe8ff' : '#ffffff'; ctx.fillRect(px, py, s.r, s.r);
+    }
+    ctx.globalAlpha = 1;
+    ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(140,190,255,0.07)';
+    PLANETS.forEach(function (pl) { ctx.beginPath(); ctx.ellipse(cx, cy, pl.a * W * 0.52, pl.a * H * 0.47, 0, 0, 6.2832); ctx.stroke(); });
+    ctx.fillStyle = 'rgba(190,180,165,0.55)';
+    for (i = 0; i < belt.length; i++) { var b = belt[i], a = b.a + t * 0.02, ra = 0.485 + b.j; ctx.fillRect(cx + Math.cos(a) * ra * W * 0.52, cy + Math.sin(a) * ra * H * 0.47, b.s, b.s); }
+    for (i = shooters.length - 1; i >= 0; i--) {
+      var sh = shooters[i]; sh.life -= 0.016; sh.x += sh.vx; sh.y += sh.vy;
+      if (sh.life <= 0) { shooters.splice(i, 1); continue; }
+      var sg = ctx.createLinearGradient(sh.x, sh.y, sh.x - sh.vx * 14, sh.y - sh.vy * 14); sg.addColorStop(0, 'rgba(255,255,255,' + sh.life + ')'); sg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = sg; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(sh.x - sh.vx * 14, sh.y - sh.vy * 14); ctx.stroke();
+    }
+    PLANETS.forEach(function (pl) {
+      pl.sx = cx + Math.cos(pl.ang) * pl.a * W * 0.52; pl.sy = cy + Math.sin(pl.ang) * pl.a * H * 0.47; pl.sr = pl.r * S * (1 + 0.28 * Math.sin(pl.ang));
+    });
+    var back = PLANETS.filter(function (q) { return Math.sin(q.ang) < 0; }), front = PLANETS.filter(function (q) { return Math.sin(q.ang) >= 0; });
+    ctx.globalAlpha = 0.85; back.forEach(drawPlanet); ctx.globalAlpha = 1;
+    drawSun();
+    front.forEach(drawPlanet);
+  }
+  function update(dt) {
+    t += dt;
+    var sv = Math.abs(window.scrollY - lastScroll) / Math.max(dt, 0.001); lastScroll = window.scrollY;
+    warp += (Math.min(3, sv / 1400) - warp) * (1 - Math.exp(-dt * 4));
+    var target = (paused || aligned) ? 0 : speedUser;
+    speedCur += (target - speedCur) * (1 - Math.exp(-dt * 3));
+    PLANETS.forEach(function (p) {
+      if (aligned) p.ang += norm(-Math.PI / 2 - p.ang) * (1 - Math.exp(-dt * 2.4));
+      else p.ang += (6.2832 / p.T) * speedCur * (1 + warp) * dt;
+    });
+    if (!reduce && Math.random() < dt * 0.14) { var fromL = Math.random() < 0.5; shooters.push({ x: Math.random() * W, y: Math.random() * H * 0.4, vx: (fromL ? 1 : -1) * (8 + Math.random() * 6), vy: 3 + Math.random() * 3, life: 1 }); }
+  }
+  function frame(ts) {
+    var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts; update(dt); render(); requestAnimationFrame(frame);
+  }
+  size(); render();
+  window.addEventListener('resize', function () { size(); render(); });
+  window.addEventListener('pointermove', function (e) { mxn = e.clientX / Math.max(1, W); myn = e.clientY / Math.max(1, H); });
+  requestAnimationFrame(function (ts) { last = ts; if (reduce) { render(); } else requestAnimationFrame(frame); });
+  if (reduce) { setInterval(function () { update(0.0001); render(); }, 1000); }
+
+  /* planet hover + click */
+  var tip = $('#tip'), bubble = $('#bubble'), bubbleTimer = 0;
+  function pick(e) {
+    if (e.target.closest && e.target.closest('.glass, .nav, .controls, button, a, input, textarea, label, .proj')) return null;
+    var best = null, bd = 1e9;
+    PLANETS.forEach(function (p) { var d = Math.hypot(e.clientX - p.sx, e.clientY - p.sy); if (d < p.sr + 12 && d < bd) { bd = d; best = p; } });
+    return best;
+  }
+  window.addEventListener('pointermove', function (e) {
+    var p = pick(e); hover = p; document.body.style.cursor = p ? 'pointer' : '';
+    if (p) { tip.textContent = p.n; tip.style.left = Math.min(W - 90, e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px'; tip.classList.add('show'); } else tip.classList.remove('show');
+  });
+  window.addEventListener('click', function (e) {
+    var p = pick(e); if (!p) { bubble.classList.remove('show'); return; }
+    bubble.innerHTML = '<b></b><span></span>'; bubble.firstChild.textContent = p.n; bubble.lastChild.textContent = p.f;
+    bubble.style.left = Math.max(12, Math.min(W - 252, e.clientX + 12)) + 'px'; bubble.style.top = Math.max(80, Math.min(H - 150, e.clientY + 12)) + 'px';
+    bubble.classList.add('show'); clearTimeout(bubbleTimer); bubbleTimer = setTimeout(function () { bubble.classList.remove('show'); }, 5000);
+  });
+
+  /* controls */
+  var alignBtn = $('#alignBtn'), pauseBtn = $('#pauseBtn'), speed = $('#speed');
+  alignBtn.addEventListener('click', function () {
+    aligned = !aligned; alignBtn.textContent = aligned ? 'Free Orbit' : 'Align Planets'; alignBtn.setAttribute('aria-pressed', aligned);
+    if (reduce) { PLANETS.forEach(function (p, i) { if (aligned) p.ang = -Math.PI / 2; else p.ang = i * 0.85 + 0.3; }); render(); }
+  });
+  pauseBtn.addEventListener('click', function () {
+    paused = !paused; pauseBtn.textContent = paused ? 'Resume Orbit' : 'Pause Orbit'; pauseBtn.setAttribute('aria-pressed', paused);
+  });
+  if (reduce) { pauseBtn.textContent = 'Resume Orbit'; pauseBtn.setAttribute('aria-pressed', 'true'); }
+  speed.addEventListener('input', function () { speedUser = parseFloat(speed.value); });
+
+  /* ================= Page behavior ================= */
+  var links = $$('#links a'), secs = links.map(function (a) { return $(a.getAttribute('href')); });
+  var prog = $('#progress');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight; prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if ('IntersectionObserver' in window) {
+    var so = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + x.target.id); }); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    secs.forEach(function (s) { if (s) so.observe(s); });
+    var once = function (el, cls) { if (!el) return; new IntersectionObserver(function (en, ob) { if (en[0].isIntersecting) { el.classList.add(cls); ob.disconnect(); } }, { threshold: 0.3 }).observe(el); };
+    once($('#tl'), 'in'); once($('#skillwrap'), 'go');
+  } else { $('#tl').classList.add('in'); }
+
+  /* typewriter */
+  var roles = ['Computer Science Student', 'Web Developer', 'Lifelong Learner'], typed = $('#typed'), ri = 0, ci = 0, del = false;
+  function type() {
+    var w = roles[ri];
+    if (reduce) { typed.textContent = w; return; }
+    ci += del ? -1 : 1; typed.textContent = w.slice(0, ci);
+    var wait = del ? 35 : 80;
+    if (!del && ci === w.length) { del = true; wait = 1400; } else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; wait = 350; }
+    setTimeout(type, wait);
+  }
+  typed.textContent = roles[0]; ci = roles[0].length; del = true; setTimeout(type, 1800);
+
+  /* project tilt */
+  $$('.proj').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) {
+      var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      c.style.setProperty('--ry', ((x - 0.5) * 10).toFixed(1) + 'deg'); c.style.setProperty('--rx', ((0.5 - y) * 10).toFixed(1) + 'deg');
+      c.style.setProperty('--mx', (x * 100) + '%'); c.style.setProperty('--my', (y * 100) + '%');
+    });
+    c.addEventListener('pointerleave', function () { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+  });
+
+  /* goals ring */
+  var goals = $$('.goal input'), fg = $('#ringfg'), C = 465;
+  function ring() {
+    var done = goals.filter(function (g) { return g.checked; }).length, pct = Math.round(done / goals.length * 100);
+    fg.style.strokeDashoffset = C * (1 - done / goals.length); $('#ringnum').textContent = pct + '%'; $('#ringsub').textContent = done + ' of ' + goals.length + ' done';
+  }
+  goals.forEach(function (g) { g.addEventListener('change', ring); }); ring();
+
+  /* copy buttons */
+  $$('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.dataset.copy), txt = el.textContent.trim();
+      function ok() { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); }
+      try { navigator.clipboard.writeText(txt).then(ok, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  /* contact form (not connected to an inbox) */
+  var form = $('#form'), status = $('#status');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var n = $('#c-name').value.trim(), m = $('#c-mail').value.trim(), g = $('#c-msg').value.trim();
+    status.className = 'status';
+    if (!n || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m) || !g) { status.className = 'status bad'; status.textContent = 'Add your name, a valid email and a message.'; return; }
+    status.textContent = 'Thanks, ' + n + '. This form is not connected to an inbox yet.';
+  });
+
+  /* ================= Edit mode ================= */
+  var eds = $$('.ed'), editing = false, editBtn = $('#editBtn'), resetBtn = $('#resetBtn');
+  eds.forEach(function (el, i) { el.dataset.def = el.textContent; el.dataset.k = el.dataset.edit || 'e' + i; var v = store.get('sp:' + el.dataset.k); if (v !== null) el.textContent = v; });
+  eds.forEach(function (el) {
+    el.addEventListener('input', function () {
+      var v = el.textContent; store.set('sp:' + el.dataset.k, v);
+      eds.forEach(function (o) { if (o !== el && o.dataset.k === el.dataset.k) o.textContent = v; });
+    });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+  });
+  var avatar = $('#avatar'), photo = $('#photo'), photoIn = $('#photoIn');
+  var savedPhoto = store.get('sp:photo'); if (savedPhoto) { photo.src = savedPhoto; avatar.classList.add('has'); }
+  function setEdit(on) {
+    editing = on; document.body.classList.toggle('editing', on); editBtn.setAttribute('aria-pressed', on); editBtn.textContent = on ? 'Done' : 'Edit page'; resetBtn.hidden = !on;
+    eds.forEach(function (el) { if (on) { el.contentEditable = 'plaintext-only'; if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true'; } else el.removeAttribute('contenteditable'); });
+  }
+  editBtn.addEventListener('click', function () { setEdit(!editing); });
+  resetBtn.addEventListener('click', function () {
+    eds.forEach(function (el) { el.textContent = el.dataset.def; store.del('sp:' + el.dataset.k); });
+    store.del('sp:photo'); avatar.classList.remove('has'); photo.removeAttribute('src');
+  });
+  avatar.addEventListener('click', function () { if (editing) photoIn.click(); });
+  photoIn.addEventListener('change', function () {
+    var f = photoIn.files && photoIn.files[0]; if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var c = document.createElement('canvas'), z = 320; c.width = c.height = z; var x = c.getContext('2d'), m = Math.min(im.width, im.height);
+        x.drawImage(im, (im.width - m) / 2, (im.height - m) / 2, m, m, 0, 0, z, z);
+        var url = c.toDataURL('image/jpeg', 0.86); photo.src = url; avatar.classList.add('has'); store.set('sp:photo', url);
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(f); photoIn.value = '';
+  });
+})();
+</script>
